@@ -1,18 +1,27 @@
+import java.util.HashMap;
+import java.util.Map;
 
 public class TTTPlayer {
-	private final TTTMark myMark;
-	private final TTTStrategy strat;
+	private String mark;
+	private TTTStrategy strat;
+	private static Map<String,TTTPlayer> marks;
 	
-	public TTTPlayer(TTTMark mark, TTTStrategy strategy){
-		myMark = mark;
+	private TTTPlayer(String symbol, TTTStrategy strategy){
+		mark = symbol;
 		strat = strategy;
 	}
 	
-	public TTTMark getMark(){
-		return myMark;
+	public String toString(){
+		return mark;
 	}
 	
 	public TTTStrategy getStrategy(){
 		return strat;
+	}
+	
+	public static TTTPlayer getPlayer(String s, TTTStrategy strat){
+		if (marks == null) marks = new HashMap<String,TTTPlayer>();
+		if (!marks.containsKey(s)) marks.put(s, new TTTPlayer(s,strat));
+		return marks.get(s);
 	}
 }

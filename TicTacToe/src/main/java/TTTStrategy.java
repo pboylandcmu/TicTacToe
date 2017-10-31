@@ -1,4 +1,4 @@
 
 public interface TTTStrategy {
-	TTTPosition chooseMove(TTTBoard b, TTTMark m);
+	TTTPosition chooseMove(TTTBoard b, TTTPlayer m);
 }

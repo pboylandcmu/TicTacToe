@@ -32,19 +32,19 @@ public class TicTacToe {
 	
 	public TTTPlayer runGame(){
 		while(!board.isFull()){
-			if (board.gameOver()!=null){
+			if (board.existsWinner()!=null){
 				for (TTTPlayer p : players){
-					if (board.gameOver().equals(p.getMark())) return p;
+					if (board.existsWinner() == p) return p;
 				}
 				throw new RuntimeException("Unclaimed mark exception");
 			}
 			TTTPlayer cur = getCurrentPlayer();
-			board = board.addMark(cur.getMark(), cur.getStrategy().chooseMove(board,cur.getMark()));
+			board = board.addMark(cur, cur.getStrategy().chooseMove(board,cur));
 			//System.out.println(board.toString());
 			nextPlayer();
-			if (board.gameOver()!=null){
+			if (board.existsWinner()!=null){
 				for (TTTPlayer p : players){
-					if (board.gameOver().equals(p.getMark())) return p;
+					if (board.existsWinner() == p) return p;
 				}
 				throw new RuntimeException("Unclaimed mark exception");
 			}

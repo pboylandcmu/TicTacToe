@@ -3,14 +3,14 @@ import java.util.Set;
 
 public class TTTBoard {
 	private int size;
-	private TTTMark[][] squares;
+	private TTTPlayer[][] squares;
 	
 	public TTTBoard(int size){
 		this.size = size;
-		squares = new TTTMark[size][size];
+		squares = new TTTPlayer[size][size];
 	}
 	
-	public TTTBoard addMark(TTTMark m, TTTPosition pos){
+	public TTTBoard addMark(TTTPlayer m, TTTPosition pos){
 		TTTBoard newBoard = new TTTBoard(size);
 		int row = pos.getRow();
 		int column = pos.getColumn();
@@ -27,9 +27,9 @@ public class TTTBoard {
 		return newBoard;
 	}
 	
-	public TTTMark gameOver(){
+	public TTTPlayer existsWinner(){
 		for (int i = 0; i<size; i++){
-			TTTMark currentMark = null;
+			TTTPlayer currentMark = null;
 			found: {
 				for (int j = 0; j<size; j++){
 					if (squares[i][j]==currentMark ^ currentMark!=null) break found;
@@ -39,7 +39,7 @@ public class TTTBoard {
 			}
 		}
 		for (int j = 0; j<size; j++){
-			TTTMark currentMark = null;
+			TTTPlayer currentMark = null;
 			found: {
 				for (int i = 0; i<size; i++){
 					if (squares[i][j]==currentMark ^ currentMark!=null) break found;
@@ -49,7 +49,7 @@ public class TTTBoard {
 			}
 		}
 		found: {
-			TTTMark currentMark = null;
+			TTTPlayer currentMark = null;
 			for (int i = 0; i<size; i++){
 				if (squares[i][i]==currentMark ^ currentMark!=null) break found;
 				currentMark = squares[i][i];
@@ -57,7 +57,7 @@ public class TTTBoard {
 			return currentMark;
 		}
 		found: {
-			TTTMark currentMark = null;
+			TTTPlayer currentMark = null;
 			for (int i = 0; i<size; i++){
 				if (squares[i][size-i-1]==currentMark ^ currentMark!=null) break found;
 				currentMark = squares[i][size-i-1];
@@ -88,7 +88,7 @@ public class TTTBoard {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i<size; i++){
 			for (int j = 0; j<size; j++){
-				TTTMark square = squares[i][j];
+				TTTPlayer square = squares[i][j];
 				if (square == null){
 					sb.append(" ");
 				}
@@ -102,15 +102,15 @@ public class TTTBoard {
 		return sb.toString();
 	}
 	
-	public TTTMark getMark(TTTPosition pos){
+	public TTTPlayer getMark(TTTPosition pos){
 		return squares[pos.getRow()][pos.getColumn()];
 	}
 	
-	public Set<TTTMark> marks(){
-		Set<TTTMark> marks = new HashSet<TTTMark>();
+	public Set<TTTPlayer> marks(){
+		Set<TTTPlayer> marks = new HashSet<TTTPlayer>();
 		for (int i = 0; i<size; i++){
 			for (int j = 0; j<size; j++){
-				TTTMark m = squares[i][j];
+				TTTPlayer m = squares[i][j];
 				if (m!=null) marks.add(m);
 			}
 		}

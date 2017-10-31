@@ -3,7 +3,7 @@ import java.util.Random;
 public class DumbStrategy implements TTTStrategy {
 
 	@Override
-	public TTTPosition chooseMove(TTTBoard b, TTTMark m) {
+	public TTTPosition chooseMove(TTTBoard b, TTTPlayer m) {
 		int size = b.getSize();
 		Random a = new Random();
 		int randRow = a.nextInt(size);
@@ -15,8 +15,4 @@ public class DumbStrategy implements TTTStrategy {
 		return new TTTPosition(randRow,randCol);
 	}
 	
-	public DumbStrategy(){
-
-	}
-
 }
