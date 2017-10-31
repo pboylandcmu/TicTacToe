@@ -1,16 +1,48 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 public class TTTBoard {
 	private int size;
 	private TTTPlayer[][] squares;
+	private List<List<TTTPosition>> winningLines;
 	
 	public TTTBoard(int size){
 		this.size = size;
 		squares = new TTTPlayer[size][size];
+		winningLines = new ArrayList<List<TTTPosition>>();
+		initializeLines();
+	}
+	
+	private void initializeLines(){
+		for (int i = 0; i<size; i++){
+			List<TTTPosition> curRow = new ArrayList<TTTPosition>();
+			for (int j = 0; j<size; j++){
+				curRow.add(new TTTPosition(i,j));
+			}
+			winningLines.add(curRow);
+		}
+		
+		for (int i = 0; i<size; i++){
+			List<TTTPosition> curCol = new ArrayList<TTTPosition>();
+			for (int j = 0; j<size; j++){
+				curCol.add(new TTTPosition(j,i));
+			}
+			winningLines.add(curCol);
+		}
+		List<TTTPosition> leftDiagonal = new ArrayList<TTTPosition>();
+		List<TTTPosition> rightDiagonal = new ArrayList<TTTPosition>();
+		for (int i = 0; i<size; i++){
+			leftDiagonal.add(new TTTPosition(i,i));
+			rightDiagonal.add(new TTTPosition(i,size-i-1));
+		}
+		winningLines.add(leftDiagonal);
+		winningLines.add(rightDiagonal);
 	}
 	
 	public TTTBoard addMark(TTTPlayer m, TTTPosition pos){
+		if (!isValidMove(pos)) throw new RuntimeException("tried to play invalid move");
 		TTTBoard newBoard = new TTTBoard(size);
 		int row = pos.getRow();
 		int column = pos.getColumn();
@@ -28,45 +60,20 @@ public class TTTBoard {
 	}
 	
 	public TTTPlayer existsWinner(){
-		for (int i = 0; i<size; i++){
-			TTTPlayer currentMark = null;
-			found: {
-				for (int j = 0; j<size; j++){
-					if (squares[i][j]==currentMark ^ currentMark!=null) break found;
-					currentMark = squares[i][j];
+		for (List<TTTPosition> line : winningLines){
+			TTTPlayer currentMark = getMark(line.get(0));
+			found : {
+				for (int i = 1; i<size; i++){
+					TTTPlayer occupier = getMark(line.get(i));
+					if (currentMark!=occupier) break found;
+					currentMark = occupier;
 				}
 				return currentMark;
 			}
-		}
-		for (int j = 0; j<size; j++){
-			TTTPlayer currentMark = null;
-			found: {
-				for (int i = 0; i<size; i++){
-					if (squares[i][j]==currentMark ^ currentMark!=null) break found;
-					currentMark = squares[i][j];
-				}
-				return currentMark;
-			}
-		}
-		found: {
-			TTTPlayer currentMark = null;
-			for (int i = 0; i<size; i++){
-				if (squares[i][i]==currentMark ^ currentMark!=null) break found;
-				currentMark = squares[i][i];
-			}
-			return currentMark;
-		}
-		found: {
-			TTTPlayer currentMark = null;
-			for (int i = 0; i<size; i++){
-				if (squares[i][size-i-1]==currentMark ^ currentMark!=null) break found;
-				currentMark = squares[i][size-i-1];
-			}
-			return currentMark;
 		}
 		return null;
 	}
-	
+		
 	public boolean isFull(){
 		for (int i = 0; i<size; i++){
 			for (int j = 0; j<size; j++){

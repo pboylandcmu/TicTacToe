@@ -5,13 +5,13 @@ public class Main {
 		TicTacToe game;
 		TTTStrategy dumb = new DumbStrategy();
 		TTTStrategy smart = new SmartStrategy();
-		TTTPlayer player1 = TTTPlayer.getPlayer("X", dumb);
+		TTTPlayer player1 = TTTPlayer.getPlayer("X", smart);
 		TTTPlayer player2 = TTTPlayer.getPlayer("O", smart);
 
 		int firstWins = 0;
 		int ties = 0;
 		int secondWins = 0;
-		for (int i = 0; i<1; i++){
+		for (int i = 0; i<1_000_000; i++){
 			game = new TicTacToe(3); 
 			game.addPlayer(player1);
 			game.addPlayer(player2);
@@ -21,6 +21,7 @@ public class Main {
 				if (result == player1) firstWins++;
 				if (result == player2) secondWins++;
 			}
+			System.out.println(String.valueOf(i/1000000.0));
 		}
 		System.out.println(String.valueOf(firstWins) + "/" + String.valueOf(secondWins) + "/" + String.valueOf(ties));
 	}

@@ -14,6 +14,7 @@ public class SmartStrategy implements TTTStrategy{
 		for (int i = 0; i<size; i++){
 			for (int j = 0; j<size; j++){
 				TTTPosition curPos = new TTTPosition(i,j);
+				if (!b.isValidMove(curPos)) break;
 				if (myMark.equals(b.addMark(myMark, curPos).existsWinner())) return curPos;
 				for (TTTPlayer t : enemies){
 					if (t.equals(b.addMark(t, curPos).existsWinner())) bestDefense = curPos;
